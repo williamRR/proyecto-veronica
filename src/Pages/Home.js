@@ -17,7 +17,7 @@ const Home = () => {
         <Button
           variant="outlined"
           color="primary"
-          onClick={() => history.push("/attendance")}
+          onClick={() => history.push("/proyecto-veronica/attendance")}
         >
           Tomar Asistencia
         </Button>
@@ -27,7 +27,7 @@ const Home = () => {
         <Button
           variant="contained"
           color="primary"
-          onClick={() => history.push("/attendance")}
+          onClick={() => history.push("/proyecto-veronica/attendance")}
         >
           Ver histórico
         </Button>
