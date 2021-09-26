@@ -30,7 +30,7 @@ const Attendance = () => {
 
   const fetchData = () => {
     setIsDataLoading(true)
-    axios.get("http://18.231.156.63:8081/api/pupils").then((res) => {
+    axios.get("https://18.231.156.63:8081/api/pupils").then((res) => {
       const { data } = res
       setPupils(attendanceParser(data))
     })
@@ -55,7 +55,7 @@ const Attendance = () => {
 
   const sendAttendance = () => {
     axios
-      .post("http://localhost:8080/api/attendances", {
+      .post("https://localhost:8080/api/attendances", {
         listOfAttendance: pupils,
         date: "2019-20-20",
         subject: "Lenguaje",
