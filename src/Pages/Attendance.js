@@ -25,12 +25,12 @@ import { useHistory } from "react-router"
 
 const Attendance = () => {
   const [pupils, setPupils] = useState([])
-  const [isDataLoading, setIsDataLoading] = useState(false)
+  const [isDataLoading, setIsDataLoading] = useState(true)
   let history = useHistory()
 
   const fetchData = () => {
     setIsDataLoading(true)
-    axios.get("http://localhost:8080/api/pupils").then((res) => {
+    axios.get("http://18.231.156.63:8081/api/pupils").then((res) => {
       const { data } = res
       setPupils(attendanceParser(data))
     })
