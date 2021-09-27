@@ -1,7 +1,7 @@
 {
   "name": "proyecto-veronica",
   "version": "0.1.0",
-  "homepage": "http://williamrr.github.io/proyecto-veronica/",
+  "homepage": "https://williamrr.github.io/proyecto-veronica/",
   "private": true,
   "dependencies": {
     "@material-ui/core": "^4.12.3",
