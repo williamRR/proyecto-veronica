@@ -4,14 +4,14 @@ import Attendance from "Pages/Attendance"
 const routes = [
   {
     id: "home",
-    route: "/proyecto-veronica",
+    route: "/",
     public: true,
     component: Home,
     item: false,
   },
   {
     id: "attendance",
-    route: "/proyecto-veronica/attendance",
+    route: "/attendance",
     public: true,
     component: Attendance,
     item: true,
