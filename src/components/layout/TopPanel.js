@@ -8,7 +8,7 @@ import {
   Toolbar,
   makeStyles,
 } from "@material-ui/core"
-import image from "images/cencosud.png"
+// import image from "images/cencosud.png"
 import IconButton from "@material-ui/core/IconButton"
 import { useLocation } from "react-router-dom"
 import MenuIcon from "@material-ui/icons/Menu"
@@ -16,11 +16,11 @@ import LeftPanel from "./LeftPanel"
 
 const useStyle = makeStyles((theme) => ({
   appBar: {
-    border: "1px solid silver",
+    borderBottom: "1px solid black",
     width: "100vw",
     maxHeight: "7vh",
     minHeight: "7vh",
-    backgroundColor: theme.palette.common.white,
+    backgroundColor: "#00355B80",
   },
   location: {
     marginLeft: "5vw",
@@ -74,13 +74,14 @@ const TopPanel = () => {
                 alignContent="center"
                 xs={7}
               >
-                <img src={`${image}`} className={classes.image} alt="logo" />
+                <Typography>Assistent-o-matic</Typography>
+                {/* <img src={`${image}`} className={classes.image} alt="logo" /> */}
               </Grid>
             </Grid>
           </Hidden>
           <Hidden smDown>
             <Grid item container alignItems="flex-start" xs={3}>
-              <img src={`${image}`} className={classes.image} alt="logo" />
+              {/* <img src={`${image}`} className={classes.image} alt="logo" /> */}
             </Grid>
             <Grid
               item

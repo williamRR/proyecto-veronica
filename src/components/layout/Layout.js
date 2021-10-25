@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
     overflow: "hidden",
     [theme.breakpoints.up("md")]: {
       marginLeft: "1vw",
-      maxWidth: "calc(100% - 270px)",
+      maxWidth: "calc(100% - 300px)",
     },
   },
 }))
@@ -34,10 +34,12 @@ const Layout = ({ children }) => {
   }
 
   return (
-    <Grid container>
+    <Grid container justify="space-around">
       <TopPanel />
       <Hidden smDown>
-        <LeftPanel />
+        <Grid item xs={"auto"}>
+          <LeftPanel />
+        </Grid>
       </Hidden>
       <Grid container justify="center" className={shouldRenderLayout()}>
         {children}

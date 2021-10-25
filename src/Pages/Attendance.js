@@ -22,15 +22,21 @@ import orderTableBasedOnIndex from "utils/orderTableBasedOnIndex"
 import _ from "lodash"
 import { DateTime } from "luxon"
 import { useHistory } from "react-router"
+import { useSnackbar } from "notistack"
 
 const Attendance = () => {
   const [pupils, setPupils] = useState([])
+  const [currentDate, setCurrentDate] = useState(
+    DateTime.now().toFormat("yyyy-MM-dd")
+  )
+  const [subject, setSubject] = useState("Historia")
   const [isDataLoading, setIsDataLoading] = useState(true)
   let history = useHistory()
+  const { enqueueSnackbar } = useSnackbar()
 
   const fetchData = () => {
     setIsDataLoading(true)
-    axios.get("https://18.231.156.63:8081/api/pupils").then((res) => {
+    axios.get("http://localhost:8080/api/pupils").then((res) => {
       const { data } = res
       setPupils(attendanceParser(data))
     })
@@ -40,37 +46,70 @@ const Attendance = () => {
     fetchData()
   }, [])
 
-  useEffect(() => {
-    console.log("rendering")
-  }, [pupils])
-
   const changeAttendance = (row) => {
-    let newPupil = pupils.find((pupil) => pupil.pupilId === row.pupilId)
+    let newPupil = pupils.find((pupil) => pupil.pupil === row.pupil)
     newPupil.present = !newPupil.present
     let newPupils = pupils
     newPupils.splice(newPupils.indexOf(newPupil), 1)
     newPupils.push(newPupil)
-    setPupils(_.sortBy(newPupils, "pupilId"))
+    setPupils(_.sortBy(newPupils, "pupil"))
   }
 
   const sendAttendance = () => {
     axios
-      .post("https://localhost:8080/api/attendances", {
+      .post("http://localhost:8080/api/attendances", {
         listOfAttendance: pupils,
-        date: "2019-20-20",
-        subject: "Lenguaje",
+        date: currentDate,
+        subject: subject,
       })
       .then(() => {
+        enqueueSnackbar(`Asistencia registrada correctamente`, {
+          variant: "info",
+          autoHideDuration: 1000,
+        })
         history.push("/")
       })
+      .catch((err) => {
+        let msg = err.response.data.message
+
+        enqueueSnackbar(`Error:` + msg, {
+          variant: "error",
+          autoHideDuration: 2500,
+        })
+      })
+  }
+
+  const obtainDate = () => {
+    console.log(DateTime.now().toFormat("yyyy-MM-dd"))
+    return null
   }
 
   return (
     <Grid container justify="center">
       <Grid item xs={12} container justify="center">
-        <Typography>
-          Asistencia para el día: {DateTime.now().toLocaleString()}
-        </Typography>
+        <Typography style={{ margin: 10 }}>Seleccionar día</Typography>
+        <input
+          type="date"
+          id="start"
+          onChange={(e) => setCurrentDate(e.target.value)}
+          name="trip-start"
+          min="2018-01-01"
+          value={currentDate}
+          max={DateTime.now().toFormat("yyyy-MM-dd")}
+          style={{ margin: 10 }}
+        />
+      </Grid>
+      <Grid item xs={12} container justify="center">
+        <Typography style={{ margin: 10 }}>Seleccionar Asignatura</Typography>
+        <select
+          onChange={(e) => setSubject(e.target.value)}
+          style={{ margin: 10 }}
+        >
+          <option value="Lenguaje">Lenguaje</option>
+          <option value="Historia" selected>
+            Historia
+          </option>
+        </select>
       </Grid>
       <Grid item xs={8} style={{ marginTop: 20 }}>
         <TableContainer>
@@ -123,7 +162,7 @@ const Attendance = () => {
                         <FormControlLabel
                           control={
                             <Switch
-                              // color={row.present ? "primary" : "default"}
+                              color={"default"}
                               style={
                                 row.present
                                   ? { color: "#d3e3b6" }

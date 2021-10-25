@@ -75,9 +75,7 @@ const Home = () => {
 
   const { handleSubmit, control, errors, setError } = useForm()
 
-  const onSubmit = (data) => {
-    if 
-  }
+  const onSubmit = (data) => {}
 
   return (
     <Grid container justify="center" className={classes.root}>

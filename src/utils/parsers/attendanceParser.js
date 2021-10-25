@@ -9,7 +9,7 @@ const attendanceParser = (results) => {
       name: capitalizeWordsOnSentence(
         pupil.name.concat(" ").concat(pupil.lastname)
       ),
-      pupilId: pupil.id,
+      pupil: pupil.id,
       present: true,
     }
     newResults.push(newObject)

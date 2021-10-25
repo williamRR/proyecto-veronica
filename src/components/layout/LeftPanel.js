@@ -7,34 +7,42 @@ import {
   Button,
   ListItem,
   ListItemIcon,
+  Typography,
 } from "@material-ui/core"
 import { makeStyles } from "@material-ui/core/styles"
 import { useHistory, useLocation } from "react-router-dom"
 import PowerSettingsNewIcon from "@material-ui/icons/PowerSettingsNew"
 import LayersIcon from "@material-ui/icons/Layers"
 import routes from "utils/routes.config"
-import withAWSAuth from "auth/withAWSAuth"
-import * as appDispatcher from "../../redux/actions/planningDispatcher"
+// import withAWSAuth from "auth/withAWSAuth"
+// import * as appDispatcher from "../../redux/actions/planningDispatcher"
 
 const useStyle = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
-    width: "60vw",
-    height: "100vh",
-    backgroundColor: theme.palette.secondary.main,
-    [theme.breakpoints.up("sm")]: {
-      maxWidth: "210px",
-    },
-    [theme.breakpoints.up("md")]: {
-      maxWidth: "240px",
-    },
+    // width: "80vw",
+    height: "86vh",
+    marginTop: "10vh",
+    borderRadius: 15,
+    border: "1px solid silver",
+    backgroundColor: "#E1EAF0",
+    // [theme.breakpoints.up("sm")]: {
+    //   maxWidth: "180px",
+    // },
+    // [theme.breakpoints.up("md")]: {
+    //   maxWidth: "200px",
+    // },
   },
   button: {
-    color: "white",
-    textAlign: "left",
-    justifyContent: "left",
+    // color: theme.palette.secondary.main,
+    color: "#4D4D4D",
+
+    marginRight: 15,
+    // border: "1px solid silver",
+    // textAlign: "left",
+    // justifyContent: "left",
     textTransform: "none",
-    overflow: "hidden",
+    // overflow: "hidden",
   },
   logout: {
     marginBottom: 25,
@@ -43,14 +51,17 @@ const useStyle = makeStyles((theme) => ({
     },
   },
   selected: {
-    color: theme.palette.primary.light,
-    textAlign: "left",
-    justifyContent: "left",
+    // color: theme.palette.primary.main,
+    color: theme.palette.primary.main,
+    // textAlign: "left",
+    marginRight: 15,
+
+    // justifyContent: "left",
     textTransform: "none",
     overflow: "hidden",
   },
   passwordRecovery: {
-    // marginBottom: 99,
+    marginBottom: 99,
     // marginTop: 30,
     textTransform: "none",
   },
@@ -61,9 +72,9 @@ const LeftPanel = ({ awsAuth, inDrawer = false, setOpen = true }) => {
   let history = useHistory()
   let location = useLocation()
 
-  const { user, setUser } = appDispatcher.useUser()
+  // const { user, setUser } = appDispatcher.useUser()
 
-  const { permissions } = user || []
+  // const { permissions } = user || []
 
   const handleClick = useCallback(
     ({ route }) => {
@@ -75,14 +86,16 @@ const LeftPanel = ({ awsAuth, inDrawer = false, setOpen = true }) => {
 
   const shouldRenderButton = useCallback(
     ({ hasRole }) => {
-      if (!permissions?.includes(hasRole)) return false
+      // if (!permissions?.includes(hasRole)) return false
       return true
-    },
-    [permissions]
+    }
+    // [permissions]
   )
 
   const isSelected = useCallback(
     (item) => {
+      console.log(item.route.split("/")[1] === location.pathname.split("/")[1])
+      debugger
       return item.route.split("/")[1] === location.pathname.split("/")[1]
         ? classes.selected
         : classes.button
@@ -99,14 +112,14 @@ const LeftPanel = ({ awsAuth, inDrawer = false, setOpen = true }) => {
   return (
     <Grid
       container
-      justify="space-around"
+      justify="space-between"
       alignContent="center"
       className={classes.root}
       item
       xs={12}
       direction="column"
     >
-      <List component="nav" aria-label="">
+      <List style={{ marginTop: 10 }} component="nav">
         {routes
           .filter((item) => item.item)
           .map((item) => {
@@ -119,13 +132,25 @@ const LeftPanel = ({ awsAuth, inDrawer = false, setOpen = true }) => {
                     handleClick(item)
                   }}
                   className={isSelected(item)}
-                  style={{ paddingLeft: 35, paddingRight: 5 }}
+                  // style={{ paddingLeft: 35, paddingRight: 5 }}
                   key={item.id}
                 >
-                  <ListItemIcon style={{ minWidth: 30 }}>
+                  <ListItemIcon
+                    style={{ justifyContent: "right" }}
+                    // style={{ minWidth: 30 }}
+                  >
                     <LayersIcon className={isSelected(item)} />
                   </ListItemIcon>
-                  <ListItemText>{item.label}</ListItemText>
+                  <ListItemText
+                    primary={
+                      <Typography
+                        variant="body1"
+                        // color={isSelected(item) ? "primary" : "secondary"}
+                      >
+                        {item.label}
+                      </Typography>
+                    }
+                  />
                 </ListItem>
               )
             )
@@ -137,7 +162,7 @@ const LeftPanel = ({ awsAuth, inDrawer = false, setOpen = true }) => {
           onClick={() => {
             awsAuth.logOut()
             if (inDrawer) setOpen(false)
-            setUser(null)
+            // setUser(null)
             history.push("/")
           }}
         >
@@ -156,4 +181,4 @@ const LeftPanel = ({ awsAuth, inDrawer = false, setOpen = true }) => {
   )
 }
 
-export default withAWSAuth(LeftPanel)
+export default LeftPanel
