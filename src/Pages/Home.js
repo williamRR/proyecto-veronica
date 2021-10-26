@@ -13,6 +13,8 @@ import { Link, useHistory } from "react-router-dom"
 import image from "images/LoginLogo.png"
 import Form from "components/Form"
 import { Controller, useForm } from "react-hook-form"
+import axios from "axios"
+var querystring = require("querystring")
 
 const useStyle = makeStyles((theme) => ({
   root: {
@@ -75,7 +77,36 @@ const Home = () => {
 
   const { handleSubmit, control, errors, setError } = useForm()
 
-  const onSubmit = (data) => {}
+  const onSubmit = ({ username, password }) => {
+    let formData = {
+      username: username,
+      password: password,
+      grant_type: "password",
+    }
+
+    axios
+      // .post("https://colegioonline.herokuapp.com/oauth/token", formData)
+      .post(
+        "http://localhost:8080/oauth/token",
+        querystring.stringify(formData),
+        {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+            // "Access-Control-Allow-Origin": "*",
+          },
+          auth: {
+            username: "frontend",
+            password: "12345", // Bad password
+          },
+        }
+      )
+      .then((res) => {
+        console.log(res)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
 
   return (
     <Grid container justify="center" className={classes.root}>
