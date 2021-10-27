@@ -9,11 +9,15 @@ import {
   Typography,
 } from "@material-ui/core"
 import React, { useState } from "react"
-import { Link, useHistory } from "react-router-dom"
 import image from "images/LoginLogo.png"
 import Form from "components/Form"
 import { Controller, useForm } from "react-hook-form"
 import axios from "axios"
+import { useSnackbar } from "notistack"
+import * as authDispatcher from "../redux/actions/authDispatcher"
+import jwt_decode from "jwt-decode"
+import { useHistory, Redirect } from "react-router"
+
 var querystring = require("querystring")
 
 const useStyle = makeStyles((theme) => ({
@@ -74,6 +78,8 @@ const Home = () => {
   const history = useHistory()
   const classes = useStyle()
   const [loading, setLoading] = useState(false)
+  const { enqueueSnackbar } = useSnackbar()
+  const { user, setUser } = authDispatcher.useUser()
 
   const { handleSubmit, control, errors, setError } = useForm()
 
@@ -85,30 +91,32 @@ const Home = () => {
     }
 
     axios
-      .post(
-        "https://colegioonline.herokuapp.com/oauth/token",
-        querystring.stringify(formData),
-        // .post(
-        //   "http://localhost:8080/oauth/token",
-        //   querystring.stringify(formData),
-        {
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
-            // "Access-Control-Allow-Origin": "*",
-          },
-          auth: {
-            username: "frontend",
-            password: "12345", // Bad password
-          },
-        }
-      )
+      .post(process.env.REACT_APP_LOGIN_URL, querystring.stringify(formData), {
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        auth: {
+          username: "frontend",
+          password: "12345",
+        },
+      })
       .then((res) => {
-        console.log(res)
+        const {
+          data: { access_token },
+        } = res
+        let decoded = jwt_decode(access_token)
+        localStorage.setItem("access_token", access_token)
+        setUser(decoded)
       })
       .catch((err) => {
-        console.log(err)
+        enqueueSnackbar(`Credemciales incorrectas`, {
+          variant: "error",
+          autoHideDuration: 2000,
+        })
       })
   }
+
+  if (user) return <Redirect to="/profile" />
 
   return (
     <Grid container justify="center" className={classes.root}>

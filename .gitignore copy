@@ -4,14 +4,14 @@
 /node_modules
 /.pnp
 .pnp.js
-
+.env/development
+.env/production
 # testing
 /coverage
 
 # production
 /build
-/staging
-/production
+
 # misc
 .DS_Store
 .env.local
@@ -22,3 +22,6 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+.scannerwork
+/coverage
+/reports

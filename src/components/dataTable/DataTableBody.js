@@ -114,7 +114,7 @@ const DataTableBody = ({
           </FormControl> */}
         </TableCell>
       )
-    if (typeof row[`${header.att}`] === "object")
+    if (header.att === "subjects")
       return (
         <TableCell
           className={getStyle(row)}
@@ -123,44 +123,70 @@ const DataTableBody = ({
           size="small"
           align="center"
         >
-          <HtmlTooltip
-            interactive
-            placement="right"
-            arrow
-            title={
-              <Grid container justify="space-between">
-                <Grid item xs={2} container alignContent="center">
-                  <IconButton
-                    onClick={() => {
-                      enqueueSnackbar(`Información copiada al portapapeles`, {
-                        variant: "info",
-                        autoHideDuration: 1000,
-                      })
-                      navigator.clipboard.writeText(
-                        row[`${header.att}`].toString().replaceAll(",", " ")
-                      )
-                    }}
-                  >
-                    <Tooltip title="Copiar todos">
-                      <FileCopyIcon color="primary" fontSize="small" />
-                    </Tooltip>
-                  </IconButton>
-                </Grid>
-                <Grid item xs={8}>
-                  {Object.keys(row[`${header.att}`]).map((seal) => {
-                    return (
-                      <Grid item>
-                        <Typography>* {row[`${header.att}`][seal]}</Typography>
-                      </Grid>
-                    )
-                  })}
-                </Grid>
-              </Grid>
-            }
-          >
-            <VisibilityIcon fontSize="small" />
-          </HtmlTooltip>
+          Ver
         </TableCell>
+      )
+    if (header.att === "active")
+      return (
+        <TableCell
+          className={getStyle(row)}
+          padding={"none"}
+          key={header.att}
+          size="small"
+          align="center"
+        >
+          {row[`${header.att}`] ? "Inactivo" : "Activo"}
+        </TableCell>
+      )
+    if (typeof row[`${header.att}`] === "object")
+      return (
+        //   <TableCell
+        //     className={getStyle(row)}
+        //     padding={"none"}
+        //     key={header.att}
+        //     size="small"
+        //     align="center"
+        //   >
+        //     <HtmlTooltip
+        //       interactive
+        //       placement="right"
+        //       arrow
+        //       title={
+        //         <Grid container justify="space-between">
+        //           <Grid item xs={2} container alignContent="center">
+        //             <IconButton
+        //               onClick={() => {
+        //                 enqueueSnackbar(`Información copiada al portapapeles`, {
+        //                   variant: "info",
+        //                   autoHideDuration: 1000,
+        //                 })
+        //                 navigator.clipboard.writeText(
+        //                   row[`${header.att}`].toString().replaceAll(",", " ")
+        //                 )
+        //               }}
+        //             >
+        //               <Tooltip title="Copiar todos">
+        //                 <FileCopyIcon color="primary" fontSize="small" />
+        //               </Tooltip>
+        //             </IconButton>
+        //           </Grid>
+        //           <Grid item xs={8}>
+        //             {Object.keys(row[`${header.att}`]).map((seal) => {
+        //               return (
+        //                 <Grid item>
+        //                   <Typography>* {row[`${header.att}`][seal]}</Typography>
+        //                 </Grid>
+        //               )
+        //             })}
+        //           </Grid>
+        //         </Grid>
+        //       }
+        //     >
+        //       <VisibilityIcon fontSize="small" />
+        //     </HtmlTooltip>
+        //   </TableCell>
+        //
+        null
       )
     if (url === header.att) {
       if (header.att === "transport" && row.transport.length > 7)
@@ -204,34 +230,18 @@ const DataTableBody = ({
           </TableCell>
         )
     } else {
-      if (header.att === "transport" && row.transport.length > 7)
-        return (
-          <TableCell
-            className={getStyle(row)}
-            padding={"none"}
-            key={header.att}
-            size="small"
-            align="center"
-            onClick={() => (selectable ? unselectLogic(row) : null)}
-          >
-            <Typography noWrap>
-              {row[`${header.att}`].substring(0, 7)}
-            </Typography>
-          </TableCell>
-        )
-      else
-        return (
-          <TableCell
-            padding={"none"}
-            className={getStyle(row)}
-            size="small"
-            key={header.att}
-            onClick={() => (selectable ? unselectLogic(row) : null)}
-            align="center"
-          >
-            <Typography noWrap>{row[`${header.att}`]}</Typography>
-          </TableCell>
-        )
+      return (
+        <TableCell
+          padding={"none"}
+          className={getStyle(row)}
+          size="small"
+          key={header.att}
+          onClick={() => (selectable ? unselectLogic(row) : null)}
+          align="center"
+        >
+          <Typography noWrap>{row[`${header.att}`] || "Sin info"}</Typography>
+        </TableCell>
+      )
     }
   }
 
@@ -259,9 +269,9 @@ const DataTableBody = ({
 
   return (
     <TableBody>
-      {rows.map((row, index) => {
+      {rows.map((row) => {
         return (
-          <TableRow key={index}>
+          <TableRow key={row.id}>
             {newHeaders.map((header) => {
               return renderUrl(row, header)
             })}

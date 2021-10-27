@@ -1,8 +1,9 @@
-import React, { useCallback } from "react"
+import React, { useCallback, useEffect } from "react"
 import { Redirect, Route } from "react-router"
-// import * as appDispatcher from "./../redux/actions/planningDispatcher"
-// import jwt_decode from "jwt-decode"
-// import NotFound404 from "components/NotFound404"
+import * as authDispatcher from "./../redux/actions/authDispatcher"
+import jwt_decode from "jwt-decode"
+import NotFound404 from "components/NotFound404"
+import axios from "axios"
 
 const PrivateRoute = ({
   component: Component,
@@ -10,56 +11,64 @@ const PrivateRoute = ({
   hasRole,
   ...rest
 }) => {
-  // const { user, setUser } = appDispatcher.useUser()
+  const { user, setUser } = authDispatcher.useUser()
 
-  // let userPermissions
+  let userPermissions
 
-  // const parseToken = useCallback(
-  //   (tkn) => {
-  //     let decoded = jwt_decode(tkn)
-  //     const { permissions, user } = decoded
-  //     const newPermissions = JSON.parse(permissions).permissions
-  //     localStorage.setItem("idToken", tkn)
-  //     setUser({
-  //       ...JSON.parse(user),
-  //       permissions: newPermissions[0].accesses,
-  //       token: tkn,
-  //       apiKey: process.env.REACT_APP_API_KEY,
-  //     })
-  //     return newPermissions[0].accesses
-  //   },
-  //   [setUser]
-  // )
+  useEffect(() => {
+    let access = ""
+    try {
+      access = localStorage.getItem("access_token")
+    } catch {
+      localStorage.removeItem("access_token")
+    }
 
-  // if (!user && localStorage.getItem("idToken")) {
-  //   userPermissions = parseToken(localStorage.getItem("idToken"))
-  // }
+    if (user) {
+      axios.interceptors.request.use((request) => {
+        request.headers["authorization"] = "Bearer ".concat(access)
+        return request
+      })
+    }
+  }, [user])
 
-  // if (publicAccess)
-  //   return (
-  //     <Route {...rest}>
-  //       <Component />
-  //     </Route>
-  //   )
-
-  // if (!user && !localStorage.getItem("idToken")) return <Redirect to="/" />
-
-  // if (
-  //   hasRole &&
-  //   (user?.permissions?.includes(hasRole) || userPermissions?.includes(hasRole))
-  // )
-  return (
-    <Route {...rest}>
-      <Component />
-    </Route>
+  const parseToken = useCallback(
+    (access_token) => {
+      let decoded = jwt_decode(access_token)
+      localStorage.setItem("access_token", access_token)
+      setUser(decoded)
+    },
+    [setUser]
   )
-  // else if (hasRole) return <Redirect to="/forbidden" />
-  // else
-  //   return (
-  //     <Route>
-  //       <NotFound404 />
-  //     </Route>
-  //   )
+
+  if (!user && localStorage.getItem("access_token")) {
+    userPermissions = parseToken(localStorage.getItem("access_token"))
+  }
+
+  if (publicAccess)
+    return (
+      <Route {...rest}>
+        <Component />
+      </Route>
+    )
+
+  if (!user && !localStorage.getItem("access_token")) return <Redirect to="/" />
+
+  if (
+    hasRole &&
+    (user?.authorities?.includes(hasRole) || userPermissions?.includes(hasRole))
+  )
+    return (
+      <Route {...rest}>
+        <Component />
+      </Route>
+    )
+  else if (hasRole) return <Redirect to="/forbidden" />
+  else
+    return (
+      <Route>
+        <NotFound404 />
+      </Route>
+    )
 }
 
 export default PrivateRoute

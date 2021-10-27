@@ -66,7 +66,7 @@ const Attendances = () => {
   }
 
   return (
-    <Grid container justify="center">
+    <Grid container justify="center" style={{ border: "1px solid black" }}>
       <Modal open={modalOpen} onClose={handleClose}>
         <Box sx={style}>
           <Grid container justify="center">
