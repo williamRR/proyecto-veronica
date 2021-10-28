@@ -5,8 +5,37 @@ import Day from "Pages/Day"
 import Class from "Pages/Class"
 import Pupils from "Pages/Mantainers/Pupils"
 import Schools from "Pages/Mantainers/Schools"
+import Subjects from "Pages/Mantainers/Subjects"
 
 const routes = [
+  {
+    id: "admins",
+    route: "/admins",
+    public: false,
+    component: Attendance,
+    item: true,
+    label: "Mantener administradores",
+    hasRole: "ROLE_SUPER_ADMIN",
+  },
+  {
+    id: "schools",
+    route: "/schools",
+    public: false,
+    component: Schools,
+    item: true,
+    label: "Mantener colegios",
+    hasRole: "ROLE_ADMIN",
+  },
+
+  {
+    id: "subjects",
+    route: "/subjects",
+    public: false,
+    component: Subjects,
+    item: true,
+    label: "Mantener materias",
+    hasRole: "ROLE_ADMIN",
+  },
   {
     id: "profile",
     route: "/profile",
@@ -25,33 +54,7 @@ const routes = [
     label: "Mantener profesores",
     hasRole: "ROLE_ADMIN",
   },
-  {
-    id: "schools",
-    route: "/schools",
-    public: false,
-    component: Schools,
-    item: true,
-    label: "Mantener colegios",
-    hasRole: "ROLE_ADMIN",
-  },
-  {
-    id: "subjects",
-    route: "/subjects",
-    public: false,
-    component: Attendance,
-    item: true,
-    label: "Mantener materias",
-    hasRole: "ROLE_ADMIN",
-  },
-  {
-    id: "admins",
-    route: "/admins",
-    public: false,
-    component: Attendance,
-    item: true,
-    label: "Mantener administradores",
-    hasRole: "ROLE_ADMIN",
-  },
+
   {
     id: "grade",
     route: "/grade",

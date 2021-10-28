@@ -38,6 +38,7 @@ const AddEditModal = ({
   handleEdit,
   object,
   loadingBut,
+  helpData,
 }) => {
   const { handleSubmit, setError, control, errors, watch, setValue } = useForm()
   let location = useLocation()
@@ -58,9 +59,10 @@ const AddEditModal = ({
   const [products, setProducts] = useState([])
   const [file, setFile] = useState()
   const getOptions = (fieldName) => {
+    console.log(helpData.schools)
     switch (fieldName) {
-      case "category":
-        return categories
+      case "school":
+        return helpData.schools
       case "supplier":
         return suppliers
       case "purchase_detail":

@@ -49,7 +49,7 @@ const useStyle = makeStyles((theme) => ({
   },
 }))
 
-const GeneralMantainer = ({ fetchEntity, label, fields, url }) => {
+const GeneralMantainer = ({ fetchEntity, label, fields, url, helpData }) => {
   let location = useLocation()
   const { enqueueSnackbar } = useSnackbar()
   const classes = useStyle()
@@ -97,7 +97,6 @@ const GeneralMantainer = ({ fetchEntity, label, fields, url }) => {
       })
       .catch((err) => {
         setIsLoading(false)
-
         setObjects([])
         setError(true)
         enqueueSnackbar("Algo salió mal", {
@@ -343,8 +342,9 @@ const GeneralMantainer = ({ fetchEntity, label, fields, url }) => {
   // }
 
   return (
-    <Grid item className={classes.root}>
-      {/* <Dialog
+    (
+      <Grid item className={classes.root}>
+        {/* <Dialog
         open={documentModalOpen}
         maxWidth="md"
         fullWidth={true}
@@ -397,85 +397,92 @@ const GeneralMantainer = ({ fetchEntity, label, fields, url }) => {
       />
        */}
 
-      <AddEditModal
-        edit={edit}
-        open={modalOpen}
-        entity={label}
-        handleClose={handleClose}
-        // handleEdit={setsBinaryOnPost ? handleEditWithBody : handleEdit}
-        loadingBut={loadingBut}
-        object={selected}
-        fields={fields}
-        handleSave={handleSave}
-      />
+        <AddEditModal
+          edit={edit}
+          open={modalOpen}
+          entity={label}
+          handleClose={handleClose}
+          // handleEdit={setsBinaryOnPost ? handleEditWithBody : handleEdit}
+          loadingBut={loadingBut}
+          object={selected}
+          fields={fields}
+          handleSave={handleSave}
+          helpData={helpData}
+        />
 
-      <Typography align="left" className={classes.title} variant="h5">
-        {label}
-      </Typography>
-      <DataTable
-        rows={objects}
-        height={"payments"}
-        selectable
-        selected={selected}
-        emptyMessage={"No se encontraron objetos"}
-        setSelected={setSelected}
-        url={url}
-        isLoading={isLoading}
-        // paginatorCurrentPage={params.page}
-        paginatorCurrentPage={page}
-        // paginatorSize={params.limit}
-        paginatorSize={size || 50}
-        // paginatorTotalObjects={count}
-        paginatorTotalObjects={objects.length}
-        // setPaginator={setPaginator}
-        setPaginator={setPaginator}
-        headers={newHeaders}
-        error={error}
-      />
+        <Typography align="left" className={classes.title} variant="h5">
+          {label}
+        </Typography>
+        <DataTable
+          rows={objects}
+          height={"payments"}
+          selectable
+          selected={selected}
+          emptyMessage={"No se encontraron objetos"}
+          setSelected={setSelected}
+          url={url}
+          isLoading={isLoading}
+          // paginatorCurrentPage={params.page}
+          paginatorCurrentPage={page}
+          // paginatorSize={params.limit}
+          paginatorSize={size || 50}
+          // paginatorTotalObjects={count}
+          paginatorTotalObjects={objects.length}
+          // setPaginator={setPaginator}
+          setPaginator={setPaginator}
+          headers={newHeaders}
+          error={error}
+        />
 
-      <Grid item container xs={12} className={classes.buttons} justify="center">
-        <Tooltip title="Eliminar" placement="top">
-          <span>
+        <Grid
+          item
+          container
+          xs={12}
+          className={classes.buttons}
+          justify="center"
+        >
+          <Tooltip title="Eliminar" placement="top">
+            <span>
+              <IconButton
+                className={classes.button}
+                disabled={!selected || !selected?.is_active}
+                onClick={() => {
+                  setDialogOpen(true)
+                }}
+              >
+                <HighlightOffIcon />
+              </IconButton>
+            </span>
+          </Tooltip>
+
+          <Tooltip title="Editar" placement="top">
+            <span>
+              <IconButton
+                className={classes.button}
+                disabled={!selected}
+                onClick={() => {
+                  setEdit(true)
+                  setModalOpen(true)
+                }}
+              >
+                <CreateIcon />
+              </IconButton>
+            </span>
+          </Tooltip>
+          <Tooltip title="Agregar" placement="top">
             <IconButton
               className={classes.button}
-              disabled={!selected || !selected?.is_active}
               onClick={() => {
-                setDialogOpen(true)
-              }}
-            >
-              <HighlightOffIcon />
-            </IconButton>
-          </span>
-        </Tooltip>
-
-        <Tooltip title="Editar" placement="top">
-          <span>
-            <IconButton
-              className={classes.button}
-              disabled={!selected}
-              onClick={() => {
-                setEdit(true)
+                setEdit(false)
+                setSelected(null)
                 setModalOpen(true)
               }}
             >
-              <CreateIcon />
+              <AddCircleOutlineIcon />
             </IconButton>
-          </span>
-        </Tooltip>
-        <Tooltip title="Agregar" placement="top">
-          <IconButton
-            className={classes.button}
-            onClick={() => {
-              setEdit(false)
-              setSelected(null)
-              setModalOpen(true)
-            }}
-          >
-            <AddCircleOutlineIcon />
-          </IconButton>
-        </Tooltip>
-      </Grid>
-      {/* {shouldRenderSellIcon() && (
+          </Tooltip>
+        </Grid>
+        {/* {shouldRenderSellIcon() && (
         <Grid
           item
           container
@@ -499,7 +506,8 @@ const GeneralMantainer = ({ fetchEntity, label, fields, url }) => {
           </Tooltip>
         </Grid>
       )} */}
-    </Grid>
+      </Grid>
+    )
   )
 }
 
