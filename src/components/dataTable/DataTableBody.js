@@ -27,7 +27,7 @@ import { useSnackbar } from "notistack"
 const useStyle = makeStyles((theme) => ({
   selected: {
     backgroundColor: theme.palette.primary.main,
-    color: theme.palette.common.white,
+    color: theme.palette.common.black,
   },
   link: {
     cursor: "pointer",
@@ -135,58 +135,48 @@ const DataTableBody = ({
           size="small"
           align="center"
         >
-          {row[`${header.att}`] ? "Inactivo" : "Activo"}
+          {row[`${header.att}`] ? "Activo" : "Inactivo"}
         </TableCell>
       )
-    if (typeof row[`${header.att}`] === "object")
+    if (header.att === "password")
       return (
-        //   <TableCell
-        //     className={getStyle(row)}
-        //     padding={"none"}
-        //     key={header.att}
-        //     size="small"
-        //     align="center"
-        //   >
-        //     <HtmlTooltip
-        //       interactive
-        //       placement="right"
-        //       arrow
-        //       title={
-        //         <Grid container justify="space-between">
-        //           <Grid item xs={2} container alignContent="center">
-        //             <IconButton
-        //               onClick={() => {
-        //                 enqueueSnackbar(`Información copiada al portapapeles`, {
-        //                   variant: "info",
-        //                   autoHideDuration: 1000,
-        //                 })
-        //                 navigator.clipboard.writeText(
-        //                   row[`${header.att}`].toString().replaceAll(",", " ")
-        //                 )
-        //               }}
-        //             >
-        //               <Tooltip title="Copiar todos">
-        //                 <FileCopyIcon color="primary" fontSize="small" />
-        //               </Tooltip>
-        //             </IconButton>
-        //           </Grid>
-        //           <Grid item xs={8}>
-        //             {Object.keys(row[`${header.att}`]).map((seal) => {
-        //               return (
-        //                 <Grid item>
-        //                   <Typography>* {row[`${header.att}`][seal]}</Typography>
-        //                 </Grid>
-        //               )
-        //             })}
-        //           </Grid>
-        //         </Grid>
-        //       }
-        //     >
-        //       <VisibilityIcon fontSize="small" />
-        //     </HtmlTooltip>
-        //   </TableCell>
-        //
-        null
+        <TableCell
+          className={getStyle(row)}
+          padding={"none"}
+          key={header.att}
+          size="small"
+          align="center"
+        >
+          **********
+        </TableCell>
+      )
+    if (header.att === "updatedAt" || header.att === "createdAt")
+      return (
+        <TableCell
+          className={getStyle(row)}
+          padding={"none"}
+          key={header.att}
+          size="small"
+          align="center"
+        >
+          {row[`${header.att}`].substring(11, 16).concat("      ")}
+          {row[`${header.att}`].substring(0, 10)}
+        </TableCell>
+      )
+    if (
+      typeof row[`${header.att}`] === "object" &&
+      typeof row[`${header.att}`] != null
+    )
+      return (
+        <TableCell
+          className={getStyle(row)}
+          padding={"none"}
+          key={header.att}
+          size="small"
+          align="center"
+        >
+          Sin Data
+        </TableCell>
       )
     if (url === header.att) {
       if (header.att === "transport" && row.transport.length > 7)

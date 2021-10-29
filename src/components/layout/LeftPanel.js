@@ -19,14 +19,14 @@ import * as authDispatcher from "../../redux/actions/authDispatcher"
 const useStyle = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
-    height: "86vh",
-    marginTop: "10vh",
-    borderRadius: 15,
-    border: "1px solid silver",
-    backgroundColor: "#E1EAF0",
+    height: "100vh",
+    borderRadius: 0,
+    paddingTop: 90,
+    // border: "1px solid silver",
+    backgroundColor: "#252e3d",
   },
   button: {
-    color: "#4D4D4D",
+    color: "#9aa0aa",
 
     marginRight: 15,
     textTransform: "none",
@@ -38,7 +38,7 @@ const useStyle = makeStyles((theme) => ({
     },
   },
   selected: {
-    color: theme.palette.primary.main,
+    color: "#ced2d7",
     marginRight: 15,
 
     textTransform: "none",
@@ -100,7 +100,7 @@ const LeftPanel = ({ inDrawer = false, setOpen = true }) => {
       xs={12}
       direction="column"
     >
-      <List style={{ marginTop: 10 }} component="nav">
+      <List component="nav">
         {routes
           .filter((item) => item.item)
           .map((item) => {
@@ -131,8 +131,8 @@ const LeftPanel = ({ inDrawer = false, setOpen = true }) => {
         <IconButton
           className={classes.logout}
           onClick={() => {
-            if (inDrawer) setOpen(false)
             setUser(null)
+            if (inDrawer) setOpen(false)
             localStorage.removeItem("access_token")
             history.push("/")
           }}

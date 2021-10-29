@@ -28,9 +28,9 @@ const useStyle = makeStyles((theme) => ({
       maxHeight: "72vh",
     },
   },
-  planning: {
-    minHeight: "85vh",
-    maxHeight: "85vh",
+  payments: {
+    minHeight: "70vh",
+    maxHeight: "70vh",
     border: "1px solid silver",
   },
   tracking: {
@@ -103,7 +103,7 @@ const DataTable = ({
 
   const getWidth = useCallback(() => {
     const TABLE_SIZES = {
-      planningDetails: classes.planningDetails,
+      payments: classes.payments,
       planning: classes.planning,
       tracking: classes.tracking,
       trackingDetails: classes.trackingDetails,
@@ -111,7 +111,7 @@ const DataTable = ({
 
     return TABLE_SIZES[height]
   }, [
-    classes.planningDetails,
+    classes.payments,
     classes.planning,
     classes.tracking,
     classes.trackingDetails,

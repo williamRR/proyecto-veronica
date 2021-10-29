@@ -17,15 +17,17 @@ import { useForm, Controller } from "react-hook-form"
 import Form from "./Form"
 import axios from "axios"
 import { useLocation } from "react-router-dom"
+import grades from "../utils/constants/grades"
+import capitalizeWordsOnSentence from "utils/capitalizeWordsOnSentence"
 const useStyle = makeStyles((theme) => ({
   filter: {
     marginTop: "1vw",
     marginBottom: "1vw",
   },
   button: {
-    marginRight: "auto",
-    marginBottom: 20,
-    marginLeft: "auto",
+    // marginRight: "auto",
+    margin: 10,
+    // marginLeft: "auto",
   },
 }))
 const AddEditModal = ({
@@ -45,6 +47,10 @@ const AddEditModal = ({
 
   const onSubmit = async (data) => {
     let newData = data
+    if (data.school && false) {
+      let id = data.school[0]
+      newData = { ...data, school: id }
+    }
     // if (location.pathname === "/admin_products") newData.image = file
     // if (location.pathname === "/admin_categories") newData.img = file
     if (Object.values(errors).length === 0)
@@ -59,12 +65,11 @@ const AddEditModal = ({
   const [products, setProducts] = useState([])
   const [file, setFile] = useState()
   const getOptions = (fieldName) => {
-    console.log(helpData.schools)
     switch (fieldName) {
-      case "school":
+      case "schoolId":
         return helpData.schools
-      case "supplier":
-        return suppliers
+      case "gradeId":
+        return helpData.grades
       case "purchase_detail":
         return products
       case "city":
@@ -126,7 +131,15 @@ const AddEditModal = ({
       <DialogContent>
         <Form onSubmit={handleSubmit(onSubmit)}>
           {fields.map(
-            ({ placeholder, rules, name, label, type, isKeyValue }) => {
+            ({
+              placeholder,
+              rules,
+              name,
+              label,
+              type,
+              isKeyValue,
+              disabled,
+            }) => {
               if (type === "autocomplete")
                 return (
                   <Controller
@@ -142,11 +155,11 @@ const AddEditModal = ({
                         disableClearable
                         clearOnEscape
                         disabled={isKeyValue && edit}
-                        defaultValue={
-                          object && object[name] // getOptions(name) && getOptions(name)[0]?.id
-                        }
+                        // defaultValue={
+                        //   object && object[name] // getOptions(name) && getOptions(name)[0]?.id
+                        // }
                         onChange={(_, data) => {
-                          props.onChange([data.id || data.name || data])
+                          props.onChange(data.id || data.name || data)
                         }}
                         noOptionsText="No se ha encontrado esa alternativa"
                         // defaultValue={isLoading ? {} : getOptions(name)[0]}
@@ -238,7 +251,7 @@ const AddEditModal = ({
                           className={classes.filter}
                           id={name}
                           label={label}
-                          disabled={isKeyValue && edit}
+                          disabled={(isKeyValue && edit) || disabled}
                           type={type}
                           fullWidth
                           placeholder={placeholder}
@@ -292,10 +305,10 @@ const AddEditModal = ({
             </>
           )}
 
-          <Grid container style={{ marginTop: 20 }}>
+          <Grid container style={{ marginTop: 20, justifyContent: "flex-end" }}>
             <Button
               className={classes.button}
-              variant="contained"
+              variant="outlined"
               color="secondary"
               size="small"
               onClick={() => {

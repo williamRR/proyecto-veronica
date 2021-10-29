@@ -8,16 +8,15 @@ const mainApplicationTheme = createTheme({
   },
   breakpoints: {},
   typography: {
-    fontFamily: ["Oswald', sans-serif"].join(","),
-    fontSize: 13,
+    fontFamily: ["Ubuntu"].join(","),
+    fontSize: 12,
   },
   palette: {
     background: {
-      default: "#F2F2F2",
+      default: "#f5f7f9",
     },
     primary: {
-      light: "#e5007e",
-      main: "#e5007e",
+      main: "#20d3ed",
       dark: "#002884",
       contrastText: "#fff",
     },

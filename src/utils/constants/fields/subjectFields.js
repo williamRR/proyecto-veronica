@@ -6,17 +6,21 @@ const pupilFields = [
   {
     name: "name",
     label: "Nombre",
-    placeholder: "ABCD",
     type: "text",
-    rules: textRules,
+    rules: { required: true },
   },
-  {
-    name: "school",
-    label: "Colegio",
-    // placeholder: "ABCD",
-    type: "autocomplete",
-    // rules: textRules,
-  },
+  // {
+  //   name: "schoolId",
+  //   label: "Colegio",
+  //   type: "autocomplete",
+  //   rules: { required: true },
+  // },
+  // {
+  //   name: "gradeId",
+  //   label: "Nivel",
+  //   type: "autocomplete",
+  //   rules: { required: true },
+  // },
 ]
 
 export default pupilFields

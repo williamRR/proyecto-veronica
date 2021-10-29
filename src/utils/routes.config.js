@@ -6,13 +6,24 @@ import Class from "Pages/Class"
 import Pupils from "Pages/Mantainers/Pupils"
 import Schools from "Pages/Mantainers/Schools"
 import Subjects from "Pages/Mantainers/Subjects"
+import SchoolUsers from "Pages/Mantainers/SchoolUsers"
+import Profile from "Pages/Profile"
 
 const routes = [
+  {
+    id: "profile",
+    route: "/profile",
+    public: false,
+    component: Profile,
+    item: true,
+    label: "Perfil",
+    hasRole: "ROLE_ADMIN",
+  },
   {
     id: "admins",
     route: "/admins",
     public: false,
-    component: Attendance,
+    component: SchoolUsers,
     item: true,
     label: "Mantener administradores",
     hasRole: "ROLE_SUPER_ADMIN",
@@ -36,15 +47,7 @@ const routes = [
     label: "Mantener materias",
     hasRole: "ROLE_ADMIN",
   },
-  {
-    id: "profile",
-    route: "/profile",
-    public: false,
-    component: Attendance,
-    item: true,
-    label: "Perfil",
-    hasRole: "ROLE_ADMIN",
-  },
+
   {
     id: "teachers",
     route: "/teachers",

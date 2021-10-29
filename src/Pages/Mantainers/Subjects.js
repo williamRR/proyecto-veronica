@@ -8,27 +8,50 @@ const Subjects = () => {
 
   const fetchEntity = "subjects"
 
-  useEffect(() => {
-    axios
+  const fetchData = async () => {
+    let schools
+    let grades
+    await axios
       .get("schools")
       .then((res) => {
-        debugger
-        const { data } = res
-        setHelpData({ schools: data })
+        schools = res.data
       })
       .catch((err) => {
         console.log(err)
       })
+    await axios
+      .get("grades")
+      .then((res) => {
+        debugger
+        grades = res.data
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+
+    let newHelpData = {
+      schools,
+      grades,
+    }
+    debugger
+    setHelpData(newHelpData)
+  }
+
+  useEffect(() => {
+    fetchData()
   }, [])
 
   return (
-    <GeneralMantainer
-      fetchEntity={fetchEntity}
-      label="Materias"
-      fields={subjectFields}
-      url={"id"}
-      helpData={helpData}
-    />
+    console.log(helpData),
+    (
+      <GeneralMantainer
+        fetchEntity={fetchEntity}
+        label="Materias"
+        fields={subjectFields}
+        url={"id"}
+        helpData={helpData}
+      />
+    )
   )
 }
 

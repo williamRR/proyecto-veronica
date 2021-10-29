@@ -20,7 +20,7 @@ const useStyle = makeStyles((theme) => ({
     width: "100vw",
     maxHeight: "7vh",
     minHeight: "7vh",
-    backgroundColor: "#00355B80",
+    backgroundColor: "#1c2330",
   },
   location: {
     marginLeft: "5vw",
@@ -74,7 +74,7 @@ const TopPanel = () => {
                 alignContent="center"
                 xs={7}
               >
-                <Typography>Assistent-o-matic</Typography>
+                <Typography color="primary">ColegioMático</Typography>
                 {/* <img src={`${image}`} className={classes.image} alt="logo" /> */}
               </Grid>
             </Grid>
@@ -82,6 +82,9 @@ const TopPanel = () => {
           <Hidden smDown>
             <Grid item container alignItems="flex-start" xs={3}>
               {/* <img src={`${image}`} className={classes.image} alt="logo" /> */}
+              <Typography color="primary" variant="h4">
+                ColegioMático
+              </Typography>
             </Grid>
             <Grid
               item

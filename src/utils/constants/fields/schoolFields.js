@@ -2,21 +2,19 @@ import fieldRules from "./fieldRules"
 
 const { textRules, rutRules, phoneRules, emailRules } = fieldRules
 
-const pupilFields = [
+const schoolFIelds = [
   {
     name: "name",
     label: "Nombre",
-    placeholder: "ABCD",
     type: "text",
-    rules: textRules,
+    rules: { required: true },
   },
   {
     name: "address",
     label: "Dirección",
-    placeholder: "ABCD",
     type: "text",
-    rules: textRules,
+    rules: { required: true },
   },
 ]
 
-export default pupilFields
+export default schoolFIelds

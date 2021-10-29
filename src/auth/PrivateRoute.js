@@ -34,12 +34,11 @@ const PrivateRoute = ({
   const parseToken = useCallback(
     (access_token) => {
       let decoded = jwt_decode(access_token)
-      localStorage.setItem("access_token", access_token)
       setUser(decoded)
+      return decoded.authorities
     },
     [setUser]
   )
-
   if (!user && localStorage.getItem("access_token")) {
     userPermissions = parseToken(localStorage.getItem("access_token"))
   }

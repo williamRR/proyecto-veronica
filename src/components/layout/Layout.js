@@ -7,12 +7,12 @@ import { useLocation } from "react-router-dom"
 const useStyles = makeStyles((theme) => ({
   root: {
     marginTop: "8vh",
-    maxWidth: "98vw",
-    marginLeft: "1vw",
+    // maxWidth: "98vw",
+    // marginLeft: "1vw",
     overflow: "hidden",
     [theme.breakpoints.up("md")]: {
-      marginLeft: "1vw",
-      maxWidth: "calc(100% - 300px)",
+      // marginLeft: "1vw",
+      maxWidth: "calc(100% - 270px)",
     },
   },
 }))
@@ -34,10 +34,10 @@ const Layout = ({ children }) => {
   }
 
   return (
-    <Grid container justify="space-around">
+    <Grid container justify="space-between">
       <TopPanel />
       <Hidden smDown>
-        <Grid item xs={"auto"}>
+        <Grid item>
           <LeftPanel />
         </Grid>
       </Hidden>
