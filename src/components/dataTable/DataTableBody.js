@@ -159,8 +159,8 @@ const DataTableBody = ({
           size="small"
           align="center"
         >
-          {row[`${header.att}`].substring(11, 16).concat("      ")}
-          {row[`${header.att}`].substring(0, 10)}
+          {row[`${header.att}`]?.substring(11, 16).concat("      ")}
+          {row[`${header.att}`]?.substring(0, 10)}
         </TableCell>
       )
     if (
