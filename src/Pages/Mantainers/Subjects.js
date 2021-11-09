@@ -22,7 +22,6 @@ const Subjects = () => {
     await axios
       .get("grades")
       .then((res) => {
-        debugger
         grades = res.data
       })
       .catch((err) => {
@@ -33,7 +32,6 @@ const Subjects = () => {
       schools,
       grades,
     }
-    debugger
     setHelpData(newHelpData)
   }
 

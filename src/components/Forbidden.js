@@ -4,21 +4,8 @@ import { Link } from "react-router-dom"
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    marginTop: "55vh",
-    maxWidth: "100vw",
-    marginLeft: "0vw",
-    [theme.breakpoints.up("md")]: {
-      marginTop: "55vh",
-
-      marginLeft: "1vw",
-      maxWidth: "80vw",
-    },
-    [theme.breakpoints.up("lg")]: {
-      marginTop: "55vh",
-
-      maxWidth: "83vw",
-      marginLeft: "1vw",
-    },
+    marginTop: theme.spacing(15),
+    justify: "center",
   },
   link: {
     textTransform: "none",
@@ -31,24 +18,31 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const NotFound404 = () => {
+const Forbidden = () => {
   const classes = useStyles()
 
   return (
     <Grid
+      item
       container
       justify="center"
-      direction="column"
+      xs={9}
+      md={4}
       className={classes.root}
     >
+      <Typography variant="h1" color="inherit" className="font-medium mb-16">
+        Ups!
+      </Typography>
+
       <Typography
         variant="h4"
         color="textSecondary"
         align="center"
         className="mb-16 font-normal"
       >
-        La página que buscas no pudo ser encontrada.
+        No tienes acceso a la página solicitada.
       </Typography>
+
       <Link align="center" underline="none" to="/" className={classes.link}>
         Volver al inicio.
       </Link>
@@ -56,4 +50,4 @@ const NotFound404 = () => {
   )
 }
 
-export default NotFound404
+export default Forbidden

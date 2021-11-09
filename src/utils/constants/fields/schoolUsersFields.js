@@ -1,6 +1,6 @@
-import fieldRules from "./fieldRules"
+import fieldRules from "./fieldRules";
 
-const { textRules, rutRules, phoneRules, emailRules } = fieldRules
+const { textRules, rutRules, phoneRules, emailRules } = fieldRules;
 
 const schoolUsersFields = [
   {
@@ -38,6 +38,7 @@ const schoolUsersFields = [
     label: "Nombre de Usuario",
     type: "text",
     isKeyValue: true,
+    rules: { required: true },
   },
   {
     name: "password",
@@ -45,7 +46,8 @@ const schoolUsersFields = [
     type: "password",
     disabled: false,
     isKeyValue: true,
+    rules: { required: true },
   },
-]
+];
 
-export default schoolUsersFields
+export default schoolUsersFields;

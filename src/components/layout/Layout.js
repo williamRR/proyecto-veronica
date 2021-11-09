@@ -7,11 +7,8 @@ import { useLocation } from "react-router-dom"
 const useStyles = makeStyles((theme) => ({
   root: {
     marginTop: "8vh",
-    // maxWidth: "98vw",
-    // marginLeft: "1vw",
     overflow: "hidden",
     [theme.breakpoints.up("md")]: {
-      // marginLeft: "1vw",
       maxWidth: "calc(100% - 270px)",
     },
   },
@@ -27,7 +24,9 @@ const Layout = ({ children }) => {
       location.pathname === "/recover" ||
       location.pathname === "/update-password" ||
       location.pathname === "/terms" ||
-      location.pathname === "/reset-password"
+      location.pathname === "/reset-password" ||
+      location.pathname === "/404" ||
+      location.pathname === "/forbidden"
     )
       return null
     return classes.root
@@ -38,7 +37,7 @@ const Layout = ({ children }) => {
       <TopPanel />
       <Hidden smDown>
         <Grid item>
-          <LeftPanel />
+          <LeftPanel shouldRenderLayout={shouldRenderLayout()} />
         </Grid>
       </Hidden>
       <Grid container justify="center" className={shouldRenderLayout()}>

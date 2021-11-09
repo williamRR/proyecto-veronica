@@ -12,12 +12,12 @@ import React, { useState } from "react"
 import image from "images/LoginLogo.png"
 import Form from "components/Form"
 import { Controller, useForm } from "react-hook-form"
-import axios from "axios"
 import { useSnackbar } from "notistack"
 import * as authDispatcher from "../redux/actions/authDispatcher"
 import jwt_decode from "jwt-decode"
 import { useHistory, Redirect } from "react-router"
-
+import { handleLogin, parseToken } from "auth/authService"
+import axios from "axios"
 var querystring = require("querystring")
 
 const useStyle = makeStyles((theme) => ({
@@ -83,37 +83,17 @@ const Home = () => {
 
   const { handleSubmit, control, errors, setError } = useForm()
 
-  const onSubmit = ({ username, password }) => {
-    let formData = {
-      username: username,
-      password: password,
-      grant_type: "password",
-    }
-
-    axios
-      .post(process.env.REACT_APP_LOGIN_URL, querystring.stringify(formData), {
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-        auth: {
-          username: "frontend",
-          password: "12345",
-        },
-      })
-      .then((res) => {
-        const {
-          data: { access_token },
-        } = res
-        let decoded = jwt_decode(access_token)
-        localStorage.setItem("access_token", access_token)
-        setUser(decoded)
-      })
-      .catch((err) => {
-        enqueueSnackbar(`Credemciales incorrectas`, {
+  const onSubmit = async (data) => {
+    await handleLogin(data).then((isLogged) => {
+      if (isLogged) {
+        setUser(parseToken())
+      } else {
+        enqueueSnackbar(`Credenciales incorrectas`, {
           variant: "error",
           autoHideDuration: 2000,
         })
-      })
+      }
+    })
   }
 
   if (user) return <Redirect to="/profile" />

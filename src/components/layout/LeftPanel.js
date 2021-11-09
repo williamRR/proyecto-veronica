@@ -15,6 +15,7 @@ import PowerSettingsNewIcon from "@material-ui/icons/PowerSettingsNew"
 import LayersIcon from "@material-ui/icons/Layers"
 import routes from "utils/routes.config"
 import * as authDispatcher from "../../redux/actions/authDispatcher"
+import { logOut } from "auth/authService"
 
 const useStyle = makeStyles((theme) => ({
   root: {
@@ -50,7 +51,11 @@ const useStyle = makeStyles((theme) => ({
   },
 }))
 
-const LeftPanel = ({ inDrawer = false, setOpen = true }) => {
+const LeftPanel = ({
+  inDrawer = false,
+  setOpen = true,
+  shouldRenderLayout,
+}) => {
   const classes = useStyle()
   let history = useHistory()
   let location = useLocation()
@@ -84,11 +89,7 @@ const LeftPanel = ({ inDrawer = false, setOpen = true }) => {
     [location.pathname, classes.selected, classes.button]
   )
 
-  if (location.pathname === "/") return null
-  if (location.pathname === "/recover") return null
-  if (location.pathname === "/update-password") return null
-  if (location.pathname === "/terms") return null
-  if (location.pathname === "/reset-password") return null
+  if (!shouldRenderLayout) return null
 
   return (
     <Grid
@@ -131,10 +132,10 @@ const LeftPanel = ({ inDrawer = false, setOpen = true }) => {
         <IconButton
           className={classes.logout}
           onClick={() => {
-            setUser(null)
+            logOut()
             if (inDrawer) setOpen(false)
-            localStorage.removeItem("access_token")
             history.push("/")
+            setUser(null)
           }}
         >
           <PowerSettingsNewIcon color="primary" />

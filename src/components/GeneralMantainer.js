@@ -55,7 +55,7 @@ const GeneralMantainer = ({ fetchEntity, label, fields, url, helpData }) => {
   const classes = useStyle()
   const [modalOpen, setModalOpen] = useState(false)
   const [objects, setObjects] = useState([])
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
   const [selected, setSelected] = useState(null)
   const [edit, setEdit] = useState(false)
   const [params, setParams] = useState({})
@@ -69,8 +69,6 @@ const GeneralMantainer = ({ fetchEntity, label, fields, url, helpData }) => {
   const [order, setOrder] = useState({ field: "createdAt", sort: "asc" })
   const [size, setSize] = useState(15)
 
-  // const { authorities } = user
-
   // useEffect(() => {
   //   if (shouldUpdate) {
   //     setIsLoading(true)
@@ -80,11 +78,12 @@ const GeneralMantainer = ({ fetchEntity, label, fields, url, helpData }) => {
   // }, [shouldUpdate])
 
   useEffect(() => {
-    setIsLoading(true)
     fetchData()
   }, [])
 
   const fetchData = async () => {
+    setIsLoading(true)
+
     await axios
       .get(
         `${fetchEntity}/page/${page}/size/${size}/order/${order.field}/sort/${order.sort}`
@@ -222,19 +221,18 @@ const GeneralMantainer = ({ fetchEntity, label, fields, url, helpData }) => {
 
   const handleSave = async (data) => {
     setLoadingBut(true)
-    let newData
-
-    newData = data
-
     await axios
-      .post(fetchEntity, newData, {
-        auth: {
-          username: "frontend",
-          password: "12345",
-        },
-      })
+      .post(
+        fetchEntity,
+        data
+        // {
+        // auth: {
+        //   username: "frontend",
+        //   password: "12345",
+        // },
+        // }
+      )
       .then((res) => {
-        console.log(res)
         handleClose()
         enqueueSnackbar("Operación exitosa", {
           variant: "success",
@@ -242,7 +240,6 @@ const GeneralMantainer = ({ fetchEntity, label, fields, url, helpData }) => {
         setShouldUpdate(true)
       })
       .catch((res) => {
-        console.log(res)
         enqueueSnackbar(Object.values(res.response.data), {
           variant: "error",
         })
@@ -256,12 +253,6 @@ const GeneralMantainer = ({ fetchEntity, label, fields, url, helpData }) => {
   const handleClose = () => {
     setModalOpen(false)
   }
-
-  // const shouldSendDataOnBody = () => {
-  //   if (editOnParam) return null
-  //   let newPayload = { id: selected.id }
-  //   return newPayload
-  // }
 
   // const handleDelete = async () => {
   //   setLoadingBut(true)
@@ -305,42 +296,6 @@ const GeneralMantainer = ({ fetchEntity, label, fields, url, helpData }) => {
         break
     }
   }
-
-  // const shouldRenderSellIcon = () => {
-  //   if (location.pathname === "/orders" || location.pathname === "/my_sells")
-  //     return true
-  //   return false
-  // }
-
-  // const [documentModalOpen, setDocumentModalOpen] = useState(false)
-  // const [docLoading, setDocLoading] = useState(false)
-  // const fetchDocument = async () => {
-  //   setDocLoading(true)
-  //   await axios
-  //     .get(`pdf/bill-detail/${selected.id}/`, {
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //     })
-  //     .then((response) => {
-  //       setSelected(null)
-  //       enqueueSnackbar("Cargando documento...", {
-  //         variant: "info",
-  //       })
-  //       setFile(response.data)
-  //     })
-  //     .catch((error) => {
-  //       console.log(error)
-  //       setDocumentModalOpen(false)
-  //       setSelected(null)
-  //       // enqueueSnackbar(Object.values(error.response.data)[0], {
-  //       enqueueSnackbar("Ocurrió un problema con este documento", {
-  //         variant: "error",
-  //       })
-  //       setFile("")
-  //     })
-  //   setDocLoading(false)
-  // }
 
   return (
     <Grid item className={classes.root}>
@@ -476,30 +431,6 @@ const GeneralMantainer = ({ fetchEntity, label, fields, url, helpData }) => {
           </IconButton>
         </Tooltip>
       </Grid>
-      {/* {shouldRenderSellIcon() && (
-        <Grid
-          item
-          container
-          xs={12}
-          className={classes.buttons}
-          justify="center"
-        >
-          <Tooltip title="Ver detalle" placement="top">
-            <IconButton
-              className={classes.button}
-              disabled={!selected}
-              onClick={() => {
-                setDocumentModalOpen(true)
-                fetchDocument()
-                // setSelected(null)
-                // setModalOpen(true)
-              }}
-            >
-              <DescriptionIcon />
-            </IconButton>
-          </Tooltip>
-        </Grid>
-      )} */}
     </Grid>
   )
 }

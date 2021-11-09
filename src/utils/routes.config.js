@@ -8,6 +8,8 @@ import Schools from "Pages/Mantainers/Schools"
 import Subjects from "Pages/Mantainers/Subjects"
 import SchoolUsers from "Pages/Mantainers/SchoolUsers"
 import Profile from "Pages/Profile"
+import NotFound404 from "components/NotFound404"
+import Forbidden from "components/Forbidden"
 
 const routes = [
   {
@@ -126,14 +128,18 @@ const routes = [
     component: Class,
     item: false,
   },
-  // {
-  //   id: "attendances",
-  //   route: "/attendances",
-  //   public: true,
-  //   component: Attendances,
-  //   item: true,
-  //   label: "Otra cosa",
-  // },
+  {
+    id: "forbidden",
+    route: "/forbidden",
+    public: true,
+    component: Forbidden,
+  },
+  {
+    id: "notFound",
+    route: "/*",
+    public: true,
+    component: NotFound404,
+  },
 ]
 
 export default routes

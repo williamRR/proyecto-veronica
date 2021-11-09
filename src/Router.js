@@ -1,7 +1,6 @@
-import React from "react"
-import PrivateRoute from "auth/PrivateRoute"
+import React, { useReducer } from "react"
+import PrivateRoute from "auth/Auth"
 import { BrowserRouter, Switch } from "react-router-dom"
-// import Layout from "components/layout/Layout"
 import routes from "utils/routes.config"
 import Layout from "components/layout/Layout"
 
