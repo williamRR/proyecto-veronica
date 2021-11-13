@@ -48,9 +48,12 @@ const signIn = (username, password) => {
 }
 
 export const parseToken = () => {
-  const accessToken = localStorage.getItem("accessToken")
-  axios.defaults.headers.common.Authorization = `Bearer ${accessToken}`
-  return jwt_decode(accessToken)
+  if (localStorage.getItem("accessToken")) {
+    const accessToken = localStorage.getItem("accessToken")
+    axios.defaults.headers.common.Authorization = `Bearer ${accessToken}`
+    return jwt_decode(accessToken)
+  }
+  return null
 }
 
 export const logOut = () => {
